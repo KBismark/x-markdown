@@ -10,13 +10,13 @@ const replacerIdentifiers = {
     string: getCharacter(ids++),
     comment: getCharacter(ids++),
     markdown: getCharacter(ids++),
-    jsx: getCharacter(ids++),
     bluekeys: getCharacter(ids++),
     greenkeys: getCharacter(ids++),
     pinkkeys: getCharacter(ids++),
     yellowkeys: getCharacter(ids++),
     varkeys: getCharacter(ids++),
     methodkeys: getCharacter(ids++),
+    text: getCharacter(ids++),
     jsx: getCharacter(ids++),
     jsxJS: getCharacter(ids++),
     markdownJS: getCharacter(ids++),
@@ -40,6 +40,9 @@ const commentsPattern = /(\/\*(.*?)\*\/)|(\/\/(.*?)\n)/gs;
 const xmarkdownPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/x-markdown>/gs;
 const xjsxPattern = /\s*\/\/<x-jsx>(.*?)\/\/<\/x-jsx>\s*\n/gs;
 const xjsxJSPattern = /((?<=\/\/<>\s*){(.*?)})(?=\s*\/\/<\/>)/gs;
+const xtextPattern = /<x-text>(.*?)<\/x-text>/gs;
+
+const writePattern = /\/\/[ ]+\\write[ ]+[^\n]+\n\s*\S/gs;
 const JSVariables = /[a-zA-Z$_][0-9a-zA-Z$_]*/gs;
 
 /**
@@ -240,11 +243,34 @@ htmltagsExtendsBluekeys.pattern();
 /**
  * 
  * @param {string} code 
+ * @returns 
+ */
+function write(code){
+    let writes = code.match(writePattern);
+    if(!writes) return code;
+    let word,length; 
+    for(let i = 0; i <writes.length;i++){
+        word = writes[i];
+        length = word.length;
+        word = word.replace(/\/\/[ ]+\\write[ ]+/,'');
+        if(/(\s+\\n\s*\n\s*\S)$/.test(word)){
+            code = code.replace(writes[i],word.split('\\n').join(''))
+        }else{
+            word = word.replace(/(\s*\n\s*\S)$/,'')
+            code = code.replace(writes[i],`${word} ${writes[i][length-1]}`)
+        }
+       
+    }
+    return code;
+}
+/**
+ * 
+ * @param {string} code 
  */
 function parseJSOnly(maincode) {
     let data = RemoveToken('string', maincode, stringsPattern);
     const strings = data.string;
-    data = RemoveToken('comment', data.code, commentsPattern)
+    data = RemoveToken('comment', write(data.code), commentsPattern)
     const comments = data.comment;
     data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
     const bluekeys = data.bluekeys;
@@ -293,8 +319,10 @@ function parseJSOnly(maincode) {
 function parseJSX(maincode) {
     let data = RemoveToken('string', maincode, stringsPattern);
     const strings = data.string;
-    data = RemoveToken('comment', data.code, commentsPattern)
+    data = RemoveToken('comment', write(data.code), commentsPattern)
     const comments = data.comment;
+    data = RemoveToken('text', data.code, xtextPattern)
+    const texts = data.text;
     data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
     const bluekeys = data.bluekeys;
     data = RemoveToken('pinkkeys', data.code, pinkKeywords.pattern)
@@ -313,21 +341,24 @@ function parseJSX(maincode) {
             ReplaceToken(
                 'string', 'stringx',
                 ReplaceToken(
-                    'bluekeys', 'key1x',
+                    'text','text',
                     ReplaceToken(
-                        'pinkkeys', 'key2x',
+                        'bluekeys', 'key1x',
                         ReplaceToken(
-                            'greenkeys', 'predefx',
+                            'pinkkeys', 'key2x',
                             ReplaceToken(
-                                'yellowkeys', 'methx',
+                                'greenkeys', 'predefx',
                                 ReplaceToken(
-                                    'varkeys', 'varx',
-                                    code, varkeys
-                                ), yellowkeys
-                            ), greenkeys
-                        ), pinkkeys
-                    ), bluekeys
-                )
+                                    'yellowkeys', 'methx',
+                                    ReplaceToken(
+                                        'varkeys', 'varx',
+                                        code, varkeys
+                                    ), yellowkeys
+                                ), greenkeys
+                            ), pinkkeys
+                        ), bluekeys
+                    ),texts
+               )
                 , strings
             )
             , comments
@@ -380,7 +411,7 @@ function parseMarkdown(maincode,relativeDirectory) {
             levelJSX[j] = parseJSX(levelJSX[j]);
             
             data = RemoveToken('jsxJS', levelJSX[j], xjsxJSPattern)
-            
+           
             lenth = data.jsxJS.length;
             for (let k = 0; k < lenth; k++) {
                 parsedJS = parseJSOnly(data.jsxJS[k]);
@@ -446,16 +477,23 @@ function parseMarkdown(maincode,relativeDirectory) {
     return maincode;
 }
 
-
-
+/**
+ * 
+ * @param {keyof typeof replacerIdentifiers} name 
+ * @param {string} code 
+ * @param {RegExp} pattern 
+ * @returns 
+ */
 function RemoveToken(name,code,pattern) {
     let matches = code.match(pattern);
-    const replacer = `${replacerIdentifiers[name]}${rand}_`;
+    const replacer = getReplacer(name);
     if (matches) {
       for (let i = 0; i < matches.length; i++){
         code = code.replace(matches[i], `${replacer}${i}${replacer}`);
       }
-      
+      if(name=='text'){
+        matches = matches.join(replacer).replace(/<x-text>/gs,'').replace(/<\/x-text>/gs,'').split(replacer);
+      }
     } else {
       matches = [];
     }
@@ -463,8 +501,16 @@ function RemoveToken(name,code,pattern) {
     data[name] = matches;
     return data;
 }
+/**
+ * 
+ * @param {keyof typeof replacerIdentifiers} name 
+ * @param {string} classname
+ * @param {string} code 
+ * @param {string[]} tokens 
+ * @returns 
+ */
 function ReplaceToken(name,classname, code, tokens) {
-    const replacer = `${replacerIdentifiers[name]}${rand}_`;
+    const replacer = getReplacer(name);
     for (let i = 0; i < tokens.length; i++){
       code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
     }
@@ -492,6 +538,17 @@ let rt = 90;
         console.log(hello)
         console.log(7 > 6);
     }
+    // \\write export 
+    const App = ({data,options})=>{
+
+        return (
+            //<x-jsx>
+            <div>
+                <h1><x-text>Hello World</x-text></h1>
+            </div>
+            //</x-jsx>
+        )
+    }
 }
 //</x-markdown>
 //<x-markdown selevtive>
@@ -500,3 +557,6 @@ let rt = 90;
 }
 //</x-markdown>
 `,__dirname)
+
+
+
