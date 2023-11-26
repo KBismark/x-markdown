@@ -11,6 +11,7 @@ const replacerIdentifiers = {
     comment: getCharacter(ids++),
     markdown: getCharacter(ids++),
     bluekeys: getCharacter(ids++),
+    customkeys: getCharacter(ids++),
     greenkeys: getCharacter(ids++),
     pinkkeys: getCharacter(ids++),
     yellowkeys: getCharacter(ids++),
@@ -240,6 +241,18 @@ const htmltagsExtendsBluekeys = {
 }
 htmltagsExtendsBluekeys.pattern();
 
+const customtags = {
+    // Custom tags
+    keys: '[A-Z\\$][0-9a-zA-Z\\$_]*',
+    pattern() {
+       const startingPattern = `((?<=${excapeRegexChars('<')}|${excapeRegexChars('</')}[ ]*)\\b(${this.keys})\\b)`
+        const pattern = `(${startingPattern})(?=\\s*${excapeRegexChars('>')}|\\s*${excapeRegexChars('/>')}|\\s+\\S*${excapeRegexChars('>')}|\\s+\\S*${excapeRegexChars('/>')})`
+        this.pattern = new RegExp(`${pattern}`, 'gs');
+    },
+     classname:'html-tag'
+}
+customtags.pattern();
+
 /**
  * 
  * @param {string} code 
@@ -274,6 +287,8 @@ function parseJSOnly(maincode) {
     const comments = data.comment;
     data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
     const bluekeys = data.bluekeys;
+    data = RemoveToken('customkeys', data.code, customtags.pattern)
+    const customtagkeys = data.customkeys;
     data = RemoveToken('pinkkeys', data.code, pinkKeywords.pattern)
     const pinkkeys = data.pinkkeys;
     data = RemoveToken('greenkeys', data.code, greenVariables.pattern)
@@ -292,17 +307,20 @@ function parseJSOnly(maincode) {
                 ReplaceToken(
                     'bluekeys', 'key1x',
                     ReplaceToken(
-                        'pinkkeys', 'key2x',
+                        'customkeys','predefx',
                         ReplaceToken(
-                            'greenkeys', 'predefx',
+                            'pinkkeys', 'key2x',
                             ReplaceToken(
-                                'yellowkeys', 'methx',
+                                'greenkeys', 'predefx',
                                 ReplaceToken(
-                                    'varkeys', 'varx',
-                                    code, varkeys
-                                ), yellowkeys
-                            ), greenkeys
-                        ), pinkkeys
+                                    'yellowkeys', 'methx',
+                                    ReplaceToken(
+                                        'varkeys', 'varx',
+                                        code, varkeys
+                                    ), yellowkeys
+                                ), greenkeys
+                            ), pinkkeys
+                        ), customtagkeys
                     ), bluekeys
                 )
                 , strings
@@ -325,6 +343,8 @@ function parseJSX(maincode) {
     const texts = data.text;
     data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
     const bluekeys = data.bluekeys;
+    data = RemoveToken('customkeys', data.code, customtags.pattern)
+    const customtagkeys = data.customkeys;
     data = RemoveToken('pinkkeys', data.code, pinkKeywords.pattern)
     const pinkkeys = data.pinkkeys;
     data = RemoveToken('greenkeys', data.code, greenVariables.pattern)
@@ -345,23 +365,24 @@ function parseJSX(maincode) {
                     ReplaceToken(
                         'bluekeys', 'key1x',
                         ReplaceToken(
-                            'pinkkeys', 'key2x',
+                            'customkeys','predefx',
                             ReplaceToken(
-                                'greenkeys', 'predefx',
+                                'pinkkeys', 'key2x',
                                 ReplaceToken(
-                                    'yellowkeys', 'methx',
+                                    'greenkeys', 'predefx',
                                     ReplaceToken(
-                                        'varkeys', 'varx',
-                                        code, varkeys
-                                    ), yellowkeys
-                                ), greenkeys
-                            ), pinkkeys
+                                        'yellowkeys', 'methx',
+                                        ReplaceToken(
+                                            'varkeys', 'varx',
+                                            code, varkeys
+                                        ), yellowkeys
+                                    ), greenkeys
+                                ), pinkkeys
+                            ), customtagkeys
                         ), bluekeys
-                    ),texts
-               )
-                , strings
-            )
-            , comments
+                    ), texts
+                ), strings
+            ), comments
         );
     return code;
 }
@@ -545,6 +566,12 @@ let rt = 90;
             //<x-jsx>
             <div>
                 <h1><x-text>Hello World</x-text></h1>
+                {state.count}
+                okay
+                {(()=>{
+                    const hello = RegExp('');
+                    return <Figure />
+                })()}
             </div>
             //</x-jsx>
         )
