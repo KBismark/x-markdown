@@ -472,12 +472,12 @@ function parseMarkdown(maincode,relativeDirectory) {
         ///(?<!\\)`(.*?)(?<!\\)`\s*;*\s*\/\/[ ]*\\insert[ ]+/
         //"(?<!\\\\)`[\\s\\S]*(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+";
         replacer = getReplacer('pathID');
-        let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[\\s\\S]*(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'))
+        let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'))
         if(!allToReplace){
             continue
         }
-        
-        pathCode = pathCode.replace(RegExp("(?<!\\\\)`[\\s\\S]*(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'),replacer)
+        console.log(allToReplace);
+        pathCode = pathCode.replace(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'),replacer)
         for(let i=0;i<allToReplace.length;i++){
             pathCode = pathCode.replace(replacer, `\`${levelCode}\`; // \\insert ${markdownId} `)
         }
