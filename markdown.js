@@ -33,9 +33,9 @@ const {ls,gt,lslash } = replacerIdentifiers.Chars;
 
 // ("[^"\n]*(?<!\\)")
 const rand = `${Math.random()}`.replace('.','');
-const stringRand = `${replacerIdentifiers.string}${rand}_`
+//const stringRand = `${replacerIdentifiers.string}${rand}_`
 const stringsPattern = /('((?<=\\)'|[^'\n])*')|("((?<=\\)"|[^"\n])*")|(`((?<=\\)`|[^`])*`)/gs;
-const commentRand = `${replacerIdentifiers.comment}${rand}_`
+//const commentRand = `${replacerIdentifiers.comment}${rand}_`
 const commentsPattern = /(\/\*(.*?)\*\/)|(\/\/(.*?)\n)/gs;
 
 const xmarkdownPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/x-markdown>/gs;
@@ -44,7 +44,7 @@ const xjsxJSPattern = /((?<=\/\/<>\s*){(.*?)})(?=\s*\/\/<\/>)/gs;
 const xtextPattern = /<x-text>(.*?)<\/x-text>/gs;
 
 const writePattern = /\/\/[ ]+\\write[ ]+[^\n]+\n\s*\S/gs;
-const JSVariables = /[a-zA-Z$_][0-9a-zA-Z$_]*/gs;
+//const JSVariables = /[a-zA-Z$_][0-9a-zA-Z$_]*/gs;
 
 /**
  * 
@@ -60,7 +60,7 @@ function getReplacer(name){
  */
 function excapeRegexChars(text) {
     return text.replace(/[\\[.*+(?{^$|})]/g, "\\$&");
-  }
+}
 
 const nonBreakingCharacters = {
     all: [
@@ -405,10 +405,6 @@ function parseMarkdown(maincode,relativeDirectory) {
     let markdownCode;
     for (let i = 0; i < markdownJS.length; i++) {
         markdownCode = markdownJS[i].replace(/\n\t|\n  /gs,'\n');
-        // for (let j = 0; j < strings.length; j++){
-        //     markdownCode = markdownCode.replace(`${replacer}${j}${replacer}`, `${strings[j]}`);
-        // }
-        
         data = RemoveToken('jsx', markdownCode, xjsxPattern);
         markdown.push({
             jsx: data.jsx,
@@ -469,8 +465,6 @@ function parseMarkdown(maincode,relativeDirectory) {
         maincode = maincode.replace(`${replacer}${i}${replacer}`, '\n');
         srcPath = path.resolve(relativeDirectory,writeToFilePath);
         pathCode = fs.readFileSync(srcPath,'utf8');
-        ///(?<!\\)`(.*?)(?<!\\)`\s*;*\s*\/\/[ ]*\\insert[ ]+/
-        //"(?<!\\\\)`[\\s\\S]*(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+";
         replacer = getReplacer('pathID');
         let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'))
         if(!allToReplace){
@@ -482,19 +476,7 @@ function parseMarkdown(maincode,relativeDirectory) {
             pathCode = pathCode.replace(replacer, `\`${levelCode}\`; // \\insert ${markdownId} `)
         }
         fs.writeFileSync(srcPath,pathCode);
-        // maincode = maincode.replace(
-        //     RegExp(
-        //         (`<x-insert\\s+${excapeRegexChars(markdownId)}>\\s*<\\/x-insert\\s*>`),
-        //         'gs'
-        //     ),
-        //     `\`${levelCode}\``
-        // )
     }
-
-    // replacer = `${replacerIdentifiers.string}${rand}_`;
-    // for (let j = 0; j < strings.length; j++){
-    //     maincode = maincode.replace(`${replacer}${j}${replacer}`, `${strings[j]}`);
-    // }
     return maincode;
 }
 
@@ -536,7 +518,7 @@ function ReplaceToken(name,classname, code, tokens) {
       code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
     }
     return code;
-  }
+}
   
 
 module.exports = parseMarkdown;
