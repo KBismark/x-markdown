@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require('path');
 
 const argv = process.argv.slice(2);
-if (argv.length === 2) {
+if (argv.length !== 2) {
     process.exit(1);
 }
 const [source,rootDirectory] = argv;
