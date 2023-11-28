@@ -13,3 +13,16 @@ Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that
 
 - **CLI support:** Xyntax also has full support to be used via the CLI.    
 
+
+# Usage Examples
+Xyntax looks for files that ends with a *.xmd.&lt;extension&gt;* e.g. `.xmd.js` in the directory that is passed as source argument when working with the CLI or using in your JS/TS projects.     
+
+To parse a file via CLI,
+```txt
+xyntax path/to/source/file path/to/relative/directory
+```    
+
+To parse a directory via CLI,
+```txt
+xyntax path/to/source/file path/to/relative/directory
+```    
