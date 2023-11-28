@@ -5,6 +5,8 @@ Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that
 
 # Key Features
 
+- **Developer-friendly:** Write the normal code with all the code completion features and other features that make speed up work.   
+
 - **Dynamic Parsing:** Code is parsed during development for real-time, browser-ready highlighting.    
 
 - **Zero performance overhead:** Minimal impact on performance, ensuring a smooth development experience.    
@@ -18,7 +20,7 @@ Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that
 npm install -g xyntax
 ```
 # Code Examples
-This is a symple jSX code that we would like to highliht in a documentation site using xyntax.
+Assuming we would like to highlight the JSX code below in a documentation site using xyntax.
 ```js
 const hello = 'Hello World'
 
@@ -35,6 +37,7 @@ To highlight the above code in our documentation site, we need to have the code 
 **somfile.xmd.js**
 ```js
 //<xyntax path="./some_file_in_project_root" my_identifier>
+{
 const hello = 'Hello World'
 
 function MyButton() {
@@ -42,10 +45,13 @@ function MyButton() {
     <button>I'm a button</button>
   );
 }
+}
 //</xyntax>
 ```   
 
 In our actual project where we need the highlighted string, we could insert the result in this way.    
+
+**/some_file_in_project_root**
 ```js
 // some codes
 export const codeExample = `` // \insert  my_identifier    
