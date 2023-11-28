@@ -11,3 +11,5 @@ Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that
 
 - **Theme Flexibility:** Choose from a range of themes or customize your own for a personalized code highlighting.    
 
+- **CLI support:** Xyntax also has full support to be used via the CLI.    
+
