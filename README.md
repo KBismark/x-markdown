@@ -90,12 +90,12 @@ ParseFile(source, projectDirectory)
 
 On the terminal, navigate to the project directory and `xyntax --setup react`    
 - Include all xyntax files anywhere in your project
-- Do not include xyntax files in your production ready code, you only need the results which are inerted automatically by xyntax.    
+- Do not include xyntax files in your production ready code, you only need the results which are inserted automatically by xyntax.    
 
 ### To use in a react project when you have access to the `webpack.config.js`
 
 Add the code below to the webpack config's rules   
-```
+```js
 {
     test:/(\.xmd\.[a-zA-Z]+)$/,
     exclude:/node_modules/,
