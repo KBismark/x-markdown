@@ -32,7 +32,7 @@ function MyButton() {
 
 ```    
 
-To highlight the above code in our documentation site, we need to have the code below in `somfile.xmd.js` and parse via CLI using `xyntax somfile.xmd.js path/to/project_root` and insert the result into our project using `// \insert my_identifier`    
+We would need to have the code below in `somfile.xmd.js` and parse via CLI using `xyntax somfile.xmd.js path/to/project_root` and insert the result into our project using `// \insert my_identifier`    
 
 **somfile.xmd.js**
 ```js
