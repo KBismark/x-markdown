@@ -13,16 +13,54 @@ Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that
 
 - **CLI support:** Xyntax also has full support to be used via the CLI.    
 
+# Installation
+```
+npm install -g xyntax
+```
+# Code Examples
+This is a symple jSX code that we would like to highliht in a documentation site using xyntax.
+```js
+const hello = 'Hello World'
+
+function MyButton() {
+  return (
+    <button>I'm a button</button>
+  );
+}
+
+```    
+
+To highlight the above code in our documentation site, we need to have the code below in `somfile.xmd.js` and parse via CLI using `xyntax somfile.xmd.js path/to/project_root` and insert the result into our project using `// \insert my_identifier`    
+
+**somfile.xmd.js**
+```js
+//<xyntax path="./some_file_in_project_root" my_identifier>
+const hello = 'Hello World'
+
+function MyButton() {
+  return (
+    <button>I'm a button</button>
+  );
+}
+//</xyntax>
+```   
+
+In our actual project where we need the highlighted string, we could insert the result in this way.    
+```js
+// some codes
+export const codeExample = `` // \insert  my_identifier    
+// some more codes
+```
 
 # Usage Examples
-Xyntax looks for files that ends with a *.xmd.&lt;extension&gt;* e.g. `.xmd.js` in the directory that is passed as source argument when working with the CLI or using in your JS/TS projects.     
+Xyntax looks for files that ends with a ***.xmd.&lt;extension&gt;*** e.g. `.xmd.js` in the directory that is passed as source argument when working with the CLI or using in your JS/TS projects.     
 
 To parse a file via CLI,
-```txt
+```
 xyntax path/to/source/file path/to/relative/directory
 ```    
 
 To parse a directory via CLI,
-```txt
+```
 xyntax path/to/source/file path/to/relative/directory
 ```    
