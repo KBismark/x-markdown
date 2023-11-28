@@ -79,7 +79,7 @@ export const blueKeywords: KeyWords = {
 
     ],
     pattern(this:KeyWords) {
-        const keys = [...this.keys, 'class'];
+        const keys = [...this.keys as string[], 'class'];
         const startingPattern = `(?<!\\S)\\b(${keys.join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${keys.join('|')})\\b)`
         const pattern = `(${startingPattern})(?!=\\S)|(${startingPattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
         this.pattern = new RegExp(pattern, 'gs');

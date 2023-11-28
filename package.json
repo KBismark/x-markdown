@@ -1,22 +1,26 @@
 {
   "name": "xyntax",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Lightweight JavaScript syntax highlighter with zero performance overhead",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
     "xyntax": "bin/cli.js"
   },
   "directories": {
-    "lib": "lib",
-    "test": "test"
+    "lib": "lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --outDir dist/",
     "postversion": "git push && git push --tags"
   },
   "author": "Bismark Yamoah",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.10.0"
-  }
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.2"
+  },
+  "files":[
+    "bin/","dist/"
+  ]
 }
