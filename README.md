@@ -61,12 +61,48 @@ export const codeExample = `` // \insert  my_identifier
 # Usage Examples
 Xyntax looks for files that ends with a ***.xmd.&lt;extension&gt;*** e.g. `.xmd.js` in the directory that is passed as source argument when working with the CLI or using in your JS/TS projects.     
 
-To parse a file via CLI,
+### To parse a file via CLI,
 ```
 xyntax path/to/source/file path/to/relative/directory
 ```    
 
-To parse a directory via CLI,
+### To parse a directory via CLI,
 ```
 xyntax path/to/source/file path/to/relative/directory
 ```    
+
+### To use in other JS/TS projects,    
+```js
+import {ParseString, ParseFile} from 'xyntax'
+
+const projectDirectory = 'path/to/project_root'
+
+// Highlight code
+ParseString(code, projectDirectory);
+
+// Or let xyntax find all .xmd.<extension> files in the sourceDirectory
+const source = 'directory/containing/xyntax_files' // Could also be a xyntax_file
+ParseFile(source, projectDirectory)
+
+```    
+
+### To use in a react project created with `create-react-app`
+
+On the terminal, navigate to the project directory and `xyntax --setup react`    
+- Include all xyntax files anywhere in your project
+- Do not include xyntax files in your production ready code, you only need the results which are inerted automatically by xyntax.    
+
+### To use in a react project when you have access to the `webpack.config.js`
+
+Add the code below to the webpack config's rules   
+```
+{
+    test:/(\.xmd\.[a-zA-Z]+)$/,
+    exclude:/node_modules/,
+    loader: require('xyntax/lib/loaders/react')
+}
+```
+
+# TODO
+- Extend usage support to other popular frameworks
+- Improve the highlighting engine (codes) to add more language highlighting    
