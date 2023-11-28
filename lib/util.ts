@@ -18,7 +18,10 @@ function parseDirectory(srcDir:string,rootDir:string){
 
 export function parseFile(srcFile:string,rootDir:string){
     if(!parseDirectory(srcFile,rootDir)){
-        ParseString(fs.readFileSync(srcFile,'utf8'),rootDir);
+        if(/(\.xmd\.[a-zA-Z]+)$/.test(srcFile)){
+            ParseString(fs.readFileSync(srcFile,'utf8'),rootDir);
+        }
+        
     }
 }
 
