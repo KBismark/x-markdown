@@ -1,5 +1,5 @@
 # xyntax
-Xyntax is a lightweight, developer-friendly JavaScript package that takes syntax highlighting to the next level. Xyntax dynamically parses your code during development, generating pre-highlighted strings. This means zero performance issues for your documentation sites. 
+Xyntax is a lightweight, developer-friendly JavaScript package and CLI tool that takes syntax highlighting to the next level. Xyntax dynamically parses your code during development, generating pre-highlighted strings. This means zero performance issues for your documentation sites. 
 
 
 
