@@ -1,3 +1,5 @@
 import { parseMarkdown } from "./lib/parser/base_parser";
+import { parseFile } from "./lib/util";
 
-parseMarkdown
+export const ParseString = parseMarkdown;
+export const ParseFile = parseFile;

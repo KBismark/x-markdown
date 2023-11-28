@@ -7,9 +7,7 @@ import { gt, ls, lslash, replacerIdentifiers } from '../constants';
 import { parseJSX } from './jsx';
 import { parseJSOnly } from './js';
 
-export function parseMarkdown(maincode,relativeDirectory) {
-    // let data = RemoveToken('string', maincode, stringsPattern);
-    // const strings = data.string;
+export function parseMarkdown(maincode:string,relativeDirectory:string) {
     let data:null|ReturnType<typeof RemoveToken> = RemoveToken('markdownJS', maincode, xmarkdownPattern)
     maincode =data.code;
     const markdownJS = data.markdownJS;
@@ -33,7 +31,7 @@ export function parseMarkdown(maincode,relativeDirectory) {
     }
     
     let levelJS, j, lenth, parsedJS;
-    let levelJSX,levelCode;
+    let levelJSX:any,levelCode:any;
     let pathCode = '',srcPath='';
     for (let i = 0; i < markdown.length; i++) { 
         levelJSX = markdown[i].jsx;
@@ -57,13 +55,13 @@ export function parseMarkdown(maincode,relativeDirectory) {
 
         }
         
-        startPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{/;
-        endPattern = /}\s*\/\/<\/x-markdown>/;
+        startPattern = /\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{/;
+        endPattern = /}\s*\/\/<\/xyntax>/;
 
         levelCode = markdown[i].code;
-        let markdownId = levelCode.match(/\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>/gs)[0];
+        let markdownId:any = levelCode.match(/\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>/gs)[0];
         
-        markdownId = markdownId.replace(/\/\/<x-markdown\s+path\s*=\s*('|")/,'').replace(/>$/,'').split(/\s+/);
+        markdownId = markdownId.replace(/\/\/<xyntax\s+path\s*=\s*('|")/,'').replace(/>$/,'').split(/\s+/);
         let writeToFilePath = markdownId[0].replace(/('|")$/,'');
         markdownId =  markdownId[1];
         levelCode = levelCode.replace(startPattern, ' ').replace(endPattern, ' ');

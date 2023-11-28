@@ -4,7 +4,7 @@ export const stringsPattern = /('((?<=\\)'|[^'\n])*')|("((?<=\\)"|[^"\n])*")|(`(
 //const commentRand = `${replacerIdentifiers.comment}${rand}_`
 export const commentsPattern = /(\/\*(.*?)\*\/)|(\/\/(.*?)\n)/gs;
 
-export const xmarkdownPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/x-markdown>/gs;
+export const xmarkdownPattern = /\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/xyntax>/gs;
 export const xjsxPattern = /\s*\/\/<x-jsx>(.*?)\/\/<\/x-jsx>\s*\n/gs;
 export const xjsxJSPattern = /((?<=\/\/<>\s*){(.*?)})(?=\s*\/\/<\/>)/gs;
 export const xtextPattern = /<x-text>(.*?)<\/x-text>/gs;

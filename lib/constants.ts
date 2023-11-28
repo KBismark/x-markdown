@@ -1,4 +1,4 @@
-import { excapeRegexChars, getCharacter } from "./helper";
+import { excapeRegexChars, getCharacter } from "./global";
 
 let ids = 8765;
 export const replacerIdentifiers = {
@@ -78,7 +78,7 @@ export const blueKeywords: KeyWords = {
         'async',
 
     ],
-    pattern() {
+    pattern(this:KeyWords) {
         const keys = [...this.keys, 'class'];
         const startingPattern = `(?<!\\S)\\b(${keys.join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${keys.join('|')})\\b)`
         const pattern = `(${startingPattern})(?!=\\S)|(${startingPattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
@@ -115,8 +115,8 @@ export const pinkKeywords: KeyWords = {
 
 
     ],
-    pattern() {
-        const startingPattern = `(?<!\\S)\\b(${this.keys.join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${this.keys.join('|')})\\b)`
+    pattern(this:KeyWords) {
+        const startingPattern = `(?<!\\S)\\b(${(this.keys as string[]).join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${(this.keys as string[]).join('|')})\\b)`
         const pattern = `(${startingPattern})(?!=\\S)|(${startingPattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
         this.pattern = new RegExp(pattern, 'gs');
     },
@@ -150,8 +150,8 @@ export const greenVariables: KeyWords = {
 
 
     ],
-    pattern() {
-        const startingPattern = `(?<!\\S)\\b(${this.keys.join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${this.keys.join('|')})\\b)`
+    pattern(this:KeyWords) {
+        const startingPattern = `(?<!\\S)\\b(${(this.keys as string[]).join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${(this.keys as string[]).join('|')})\\b)`
         const pattern = `(${startingPattern})(?!=\\S)|(${startingPattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
         this.pattern = new RegExp(pattern, 'gs');
     },
@@ -162,7 +162,7 @@ greenVariables.pattern()
 export const methodVariables: KeyWords = {
     // JavaScript variables ^(?!y$)x$
     keys: '[a-zA-Z\\$_][0-9a-zA-Z\\$_]*',
-    pattern() { 
+    pattern(this:KeyWords) { 
         const startingPattern = `(?<!\\S)\\b(${this.keys})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')}|${excapeRegexChars('.')})\\b(${this.keys})\\b)`
         const pattern = `(${startingPattern})(?=\\s*\\()`
         this.pattern = new RegExp(pattern, 'gs');
@@ -174,7 +174,7 @@ methodVariables.pattern();
 export const jsVariables: KeyWords = {
     // JavaScript variables
     keys: '[a-zA-Z\\$_][0-9a-zA-Z\\$_]*',
-    pattern() { 
+    pattern(this:KeyWords) { 
         const startingPattern = `(?<!\\S)\\b(${this.keys})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')}|${excapeRegexChars('.')})\\b(${this.keys})\\b)`
         const pattern = `(${startingPattern})(?!=\\S)|(${startingPattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
         this.pattern = new RegExp(pattern, 'gs');
@@ -193,10 +193,10 @@ export const htmltagsExtendsBluekeys: KeyWords = {
         'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'svg', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title', 'tr', 'track', 'tt', 'u', 'ul',
         'var','video','wbr'
     ],
-    pattern() {
+    pattern(this:KeyWords) {
         const startingBluePattern = `(?<!\\S)\\b(${(blueKeywords.keys as string[]).join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${(blueKeywords.keys as string[]).join('|')})\\b)`
         const bluePattern = `(${startingBluePattern})(?!=\\S)|(${startingBluePattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
-        const startingPattern = `((?<=${excapeRegexChars('<')}|${excapeRegexChars('</')}[ ]*)\\b(${this.keys.join('|')})\\b)`
+        const startingPattern = `((?<=${excapeRegexChars('<')}|${excapeRegexChars('</')}[ ]*)\\b(${(this.keys as string[]).join('|')})\\b)`
         const pattern = `(${startingPattern})(?=\\s*${excapeRegexChars('>')}|\\s*${excapeRegexChars('/>')}|\\s+\\S*${excapeRegexChars('>')}|\\s+\\S*${excapeRegexChars('/>')})`
         this.pattern = new RegExp(`(${bluePattern})|(${pattern})`, 'gs');
     },
@@ -207,7 +207,7 @@ htmltagsExtendsBluekeys.pattern();
 export const customtags: KeyWords = {
     // Custom tags
     keys: '[A-Z\\$][0-9a-zA-Z\\$_]*',
-    pattern() {
+    pattern(this:KeyWords) {
        const startingPattern = `((?<=${excapeRegexChars('<')}|${excapeRegexChars('</')}[ ]*)\\b(${this.keys})\\b)`
         const pattern = `(${startingPattern})(?=\\s*${excapeRegexChars('>')}|\\s*${excapeRegexChars('/>')}|\\s+\\S*${excapeRegexChars('>')}|\\s+\\S*${excapeRegexChars('/>')})`
         this.pattern = new RegExp(`${pattern}`, 'gs');

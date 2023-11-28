@@ -1,2 +1,2 @@
-# x-markdown
+# xyntax
 Lightweight JavaScript syntax highlighter 

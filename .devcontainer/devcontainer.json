@@ -1,0 +1,45 @@
+// .devcontainer/devcontainer.json
+{
+    "name": "xyntax",
+    "image": "mcr.microsoft.com/vscode/devcontainers/typescript-node:14",
+  
+    // Set up port forwarding if your app needs it.
+    // "forwardPorts": [],
+  
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-typescript-next",
+      "esbenp.prettier-vscode"
+    ],
+  
+    // Use the Dockerfile in this directory for the container. This can
+    // include any customizations you need aside from the three below.
+   // "dockerFile": "Dockerfile",
+  
+    // Prevent file permissions issues on bind mounts
+    "runArgs": ["-u", "root"],
+  
+    // The Docker file for this configuration
+    // "dockerFile": "Dockerfile",
+  
+    // Additional Docker compose file for the devcontainer
+    // "dockerComposeFile": ["docker-compose.yml"],
+  
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-typescript-next"
+     // "esbenp.prettier-vscode"
+    ],
+  
+    // Set up post-create commands or override existing ones.
+    "postCreateCommand": "npm install",
+  
+    // Open a codespace with specific settings
+    "settings": {
+    //   "editor.defaultFormatter": "esbenp.prettier-vscode",
+    //   "editor.formatOnSave": true
+    }
+  }
+  

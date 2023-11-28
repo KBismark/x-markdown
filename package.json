@@ -1,0 +1,21 @@
+{
+  "name": "xyntax",
+  "version": "1.0.0",
+  "description": "Lightweight JavaScript syntax highlighter",
+  "main": "index.js",
+  "bin": {
+    "x-xyntax": "bin/cli.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}

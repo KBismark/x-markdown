@@ -7,14 +7,6 @@ export function getReplacer(name:keyof typeof replacerIdentifiers){
     return `${replacerIdentifiers[name]}${rand}_`;
 }
 
-export function getCharacter(numb:number) {
-    return String.fromCharCode(numb)
-}
-
-export function excapeRegexChars(text:string) {
-    return text.replace(/[\\[.*+(?{^$|})]/g, "\\$&");
-}
-
 export function write(code:string){
     let writes = code.match(writePattern);
     if(!writes) return code;

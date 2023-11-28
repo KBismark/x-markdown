@@ -38,7 +38,7 @@ const stringsPattern = /('((?<=\\)'|[^'\n])*')|("((?<=\\)"|[^"\n])*")|(`((?<=\\)
 //const commentRand = `${replacerIdentifiers.comment}${rand}_`
 const commentsPattern = /(\/\*(.*?)\*\/)|(\/\/(.*?)\n)/gs;
 
-const xmarkdownPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/x-markdown>/gs;
+const xmarkdownPattern = /\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{(.*?)}\s*\/\/<\/xyntax>/gs;
 const xjsxPattern = /\s*\/\/<x-jsx>(.*?)\/\/<\/x-jsx>\s*\n/gs;
 const xjsxJSPattern = /((?<=\/\/<>\s*){(.*?)})(?=\s*\/\/<\/>)/gs;
 const xtextPattern = /<x-text>(.*?)<\/x-text>/gs;
@@ -439,13 +439,13 @@ function parseMarkdown(maincode,relativeDirectory) {
 
         }
         
-        startPattern = /\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{/;
-        endPattern = /}\s*\/\/<\/x-markdown>/;
+        startPattern = /\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>\s*{/;
+        endPattern = /}\s*\/\/<\/xyntax>/;
 
         levelCode = markdown[i].code;
-        let markdownId = levelCode.match(/\/\/<x-markdown\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>/gs)[0];
+        let markdownId = levelCode.match(/\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-Z-0-9\$_]+>/gs)[0];
         
-        markdownId = markdownId.replace(/\/\/<x-markdown\s+path\s*=\s*('|")/,'').replace(/>$/,'').split(/\s+/);
+        markdownId = markdownId.replace(/\/\/<xyntax\s+path\s*=\s*('|")/,'').replace(/>$/,'').split(/\s+/);
         let writeToFilePath = markdownId[0].replace(/('|")$/,'');
         markdownId =  markdownId[1];
         levelCode = levelCode.replace(startPattern, ' ').replace(endPattern, ' ');
@@ -528,13 +528,13 @@ parseMarkdown(`
 
 const s = 4;
 
-//<x-markdown selevtive>
+//<xyntax selevtive>
 {
     const s = 56;
 }
-//</x-markdown>
+//</xyntax>
 let rt = 90;
-//<x-markdown path = './test/app.js' code>
+//<xyntax path = './test/app.js' code>
 {
     const hello = 'world';
     if(hello){
@@ -559,12 +559,12 @@ let rt = 90;
         )
     }
 }
-//</x-markdown>
-//<x-markdown selevtive>
+//</xyntax>
+//<xyntax selevtive>
 {
     const s = 56;
 }
-//</x-markdown>
+//</xyntax>
 `,__dirname)
 
 
