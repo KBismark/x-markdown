@@ -1,6 +1,6 @@
 
-import fs from 'fs'
-import path from 'path'
+import { readFileSync, writeFileSync } from 'fs'
+import { resolve } from 'path'
 import { RemoveToken, getReplacer } from '../helper';
 import { xjsxJSPattern, xjsxPattern, xmarkdownPattern } from '../patterns';
 import { gt, ls, lslash, replacerIdentifiers } from '../constants';
@@ -79,8 +79,8 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
         (markdown as any )[i] = '';
         replacer = getReplacer('markdownJS');
         maincode = maincode.replace(`${replacer}${i}${replacer}`, '\n');
-        srcPath = path.resolve(relativeDirectory,writeToFilePath);
-        pathCode = fs.readFileSync(srcPath,'utf8');
+        srcPath = resolve(relativeDirectory,writeToFilePath);
+        pathCode = readFileSync(srcPath,'utf8');
         replacer = getReplacer('pathID');
         let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'))
         if(!allToReplace){
@@ -90,7 +90,7 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
         for(let i=0;i<allToReplace.length;i++){
             pathCode = pathCode.replace(replacer, `\`${levelCode}\`; // \\insert ${markdownId} `)
         }
-        fs.writeFileSync(srcPath,pathCode);
+        writeFileSync(srcPath,pathCode);
     }
     return maincode;
 }
