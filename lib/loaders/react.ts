@@ -1,6 +1,6 @@
-const { ParseString } = require("../..");
+import { ParseString } from "../..";
 const working_directory = process.cwd();
-module.exports = (source)=>{
+module.exports = (source:any)=>{
     ParseString(source,working_directory);
     return source;
 }

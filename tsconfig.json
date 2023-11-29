@@ -4,7 +4,7 @@
       "target": "es5",
       "module": "commonjs",
       "noImplicitAny": true,
-      "outDir": "dist",
+      "outDir": "dist/",
       "rootDir": ".",
       "lib": [
         "es6",
@@ -19,9 +19,8 @@
     // ],
     "exclude": [
       "node_modules",
-      ".devcontainer",
       "dist",
-      "markdown.js"
+      ".devcontainer",
     ]
   }
   

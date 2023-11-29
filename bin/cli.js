@@ -19,7 +19,7 @@ if(source === '--setup' && rootDirectory === 'react'){
         config.module.rules.push({
             test:/(\.xmd\.[a-zA-Z]+)$/,
             exclude:/node_modules/,
-            loader: require('xyntax/lib/loaders/react')
+            loader: require.resolve('xyntax/dist/lib/loaders/react')
         })
     }
     `;
