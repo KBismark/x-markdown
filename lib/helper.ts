@@ -46,7 +46,7 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
 export function ReplaceToken(name:keyof typeof replacerIdentifiers,classname:string, code:string, tokens:string[]) {
     const replacer = getReplacer(name);
     for (let i = 0; i < tokens.length; i++){
-      code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+      code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmd-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
     }
     return code;
 }

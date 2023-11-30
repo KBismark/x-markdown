@@ -21,6 +21,7 @@ if(source === '--setup' && rootDirectory === 'react'){
             exclude:/node_modules/,
             loader: require.resolve('xyntax/dist/lib/loaders/react')
         })
+        return config;
     }
     `;
     fs.appendFileSync(webpack_config_file,webpack_config_mod);

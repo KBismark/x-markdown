@@ -25,9 +25,9 @@ export function parseJSX(maincode:string) {
     data = null;
     code =
         ReplaceToken(
-            'comment', 'commentx',
+            'string', 'stringx',
             ReplaceToken(
-                'string', 'stringx',
+                'comment', 'commentx',
                 ReplaceToken(
                     'text','text',
                     ReplaceToken(
@@ -49,8 +49,8 @@ export function parseJSX(maincode:string) {
                             ), customtagkeys
                         ), bluekeys
                     ), texts
-                ), strings
-            ), comments
+                ), comments
+            ), strings 
         );
     return code;
 }

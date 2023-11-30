@@ -49,7 +49,7 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
             for (let k = 0; k < lenth; k++) {
                 parsedJS = parseJSOnly(data.jsxJS[k]);
                     levelJSX[j] = levelJSX[j].replace(`${replacer}${k}${replacer}`,
-                    `${ls}div class="xmk-js2x"${gt}${parsedJS}${lslash}div${gt}`
+                    `${ls}div class="xmd-js2x"${gt}${parsedJS}${lslash}div${gt}`
                 );
             }
 
@@ -69,9 +69,9 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
         replacer = getReplacer('jsx');
         lenth = levelJSX.length;
         for (let k = 0; k < lenth; k++) {
-            levelCode = levelCode.replace(`${replacer}${k}${replacer}`, `${ls}div class="xmk-jsx"${gt}${levelJSX[k]}${lslash}div${gt}`);
+            levelCode = levelCode.replace(`${replacer}${k}${replacer}`, `${ls}div class="xmd-jsx"${gt}${levelJSX[k]}${lslash}div${gt}`);
         }
-        levelCode = `${ls}div class="xmk-js1x"${gt}${levelCode}${lslash}div${gt}`;
+        levelCode = `${ls}div class="xmd-js1x"${gt}${levelCode}${lslash}div${gt}`;
         levelCode = levelCode.replace(/&/gs, '&#38').replace(/</gs, '&#60;').replace(/>/gs, '&#62;')
             .replace(/\//gs, '&#47;').replace(/\{/gs, '&#123;').replace(/\}/gs, '&#125;').replace(/`/gs,'&#96;')
             .replace(RegExp(`${ls}`, 'gs'), '<').replace(RegExp(`${lslash}`, 'gs'), '</').replace(RegExp(`${gt}`, 'gs'), '>');
@@ -82,15 +82,14 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
         srcPath = resolve(relativeDirectory,writeToFilePath);
         pathCode = readFileSync(srcPath,'utf8');
         replacer = getReplacer('pathID');
-        let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'))
+        let allToReplace = pathCode.match(RegExp("(?<!\\\\)`[^`]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId+ "\\s",'gs'))
         if(!allToReplace){
             continue
         }
-        pathCode = pathCode.replace(RegExp("(?<!\\\\)`[\\s\\S]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId,'gs'),replacer)
+        pathCode = pathCode.replace(RegExp("(?<!\\\\)`[^`]*?(?<!\\\\)`\\s*;*\\s*\\/\\/[ ]*\\\\insert[ ]+"+markdownId+ "\\s",'gs'),replacer)
         for(let i=0;i<allToReplace.length;i++){
             pathCode = pathCode.replace(replacer, `\`${levelCode}\`; // \\insert ${markdownId} `)
         }
         writeFileSync(srcPath,pathCode);
     }
-    return maincode;
 }
