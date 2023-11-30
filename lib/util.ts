@@ -1,7 +1,7 @@
 
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
-import {ParseString} from '../index'
+import {ParseString} from './index'
 
 function parseDirectory(srcDir:string,rootDir:string){
     let srcDirContent:string[];

@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const { ParseFile } = require('../dist/index');
+const { ParseFile } = require('../dist/lib/index');
 const fs = require("fs");
 const path = require('path');
 

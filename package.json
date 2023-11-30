@@ -2,12 +2,12 @@
   "name": "xyntax",
   "version": "0.2.0",
   "description": "Lightweight JavaScript syntax highlighter with zero performance overhead",
-  "main": "dist/index.js",
+  "main": "dist/lib/index.js",
   "bin": {
     "xyntax": "bin/cli.js"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "dist/lib"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -14,13 +14,8 @@
         "node_modules/@types"
       ]
     },
-    // "include": [
-    //   "dhl"
-    // ],
-    "exclude": [
-      "node_modules",
-      "dist",
-      ".devcontainer",
+    "include": [
+      "lib"
     ]
   }
   
