@@ -197,8 +197,8 @@ export const htmltagsExtendsBluekeys: KeyWords = {
         const startingBluePattern = `(?<!\\S)\\b(${(blueKeywords.keys as string[]).join('|')})\\b|((?<=${nonBreakingCharacters.start.map(excapeRegexChars).join('|')})\\b(${(blueKeywords.keys as string[]).join('|')})\\b)`
         const bluePattern = `(${startingBluePattern})(?!=\\S)|(${startingBluePattern})(?=${nonBreakingCharacters.end.map(excapeRegexChars).join('|')})`
         const startingPattern = `((?<=${excapeRegexChars('<')}|${excapeRegexChars('</')}[ ]*)\\b(${(this.keys as string[]).join('|')})\\b)`
-        const pattern = `(${startingPattern})(?=\\s*${excapeRegexChars('>')}|\\s*${excapeRegexChars('/>')}|\\s+\\S*${excapeRegexChars('>')}|\\s+\\S*${excapeRegexChars('/>')})`
-        this.pattern = new RegExp(`(${bluePattern})|(${pattern})`, 'gs');
+        const pattern = `(${startingPattern})(?=\\>|\\/\\>|.*?\\/\\>|.*?\\>)|${bluePattern}`
+        this.pattern = new RegExp(pattern, 'gs');
     },
      classname:'html-tag'
 }

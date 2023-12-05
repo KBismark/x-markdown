@@ -30,8 +30,12 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
     let matches:any = code.match(pattern);
     const replacer = getReplacer(name);
     if (matches) {
-      for (let i = 0; i < matches.length; i++){
-        code = code.replace(matches[i], `${replacer}${i}${replacer}`);
+      if(name==='bluekeys'){
+        code = code.replace(pattern,replacer);
+      }else{
+        for (let i = 0; i < matches.length; i++){
+          code = code.replace(matches[i], `${replacer}${i}${replacer}`);
+        }
       }
       if(name=='text'){
         matches = matches.join(replacer).replace(/<x-text>/gs,'').replace(/<\/x-text>/gs,'').split(replacer);
@@ -45,8 +49,14 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
 
 export function ReplaceToken(name:keyof typeof replacerIdentifiers,classname:string, code:string, tokens:string[]) {
     const replacer = getReplacer(name);
-    for (let i = 0; i < tokens.length; i++){
-      code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmd-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+    if(name==='bluekeys'){
+      for (var i = 0; i < tokens.length; i++) {
+        code = code.replace(replacer,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+      }
+    }else{
+      for (let i = 0; i < tokens.length; i++){
+        code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+      }
     }
     return code;
 }
