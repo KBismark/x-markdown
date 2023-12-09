@@ -6,4 +6,4 @@ export const xmarkdownPattern = /\/\/<xyntax\s+path\s*=\s*('\S+'|"\S+")\s+[a-zA-
 export const xjsxPattern = /\s*\/\/<x-jsx>(.*?)\/\/<\/x-jsx>\s*\n/gs;
 export const xjsxJSPattern = /((?<=\/\/<>\s*){(.*?)})(?=\s*\/\/<\/>)/gs;
 export const xtextPattern = /<x-text>(.*?)<\/x-text>/gs;
-export const writePattern = /\/\/[ ]+\\write[ ]+[^\n]+\n\s*\S/gs;
+export const writePattern = /\/\/[ ]+\\write[ ]+[^\n]+\n\s*(\S|\s)/gs;

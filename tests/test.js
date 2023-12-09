@@ -7,11 +7,16 @@ const Hello = ()=><h1>Hello World</h1>
 
 //<xyntax path="./test-result.js" example1>
 {
-    const Hello = ()=><h1> <x-text>I'm a button</x-text></h1>
-    const hello = 'Hello Worlds'.match(new RegExp('Hello Worlds'))[0]
-    // code here... \`
+    // \\write import './App.css'; \\n 
+    // \\write import './xyntax.css' \\n 
+    // \\write import { CodeExample_1, CodeExample_2 } from './code-example'; \\n 
+    // \\write import './code-example.xmd'; \\n 
+    // \\write import React, { useState } from "react" \\n 
+
+    /* const hello = 'Hello Worlds'.match(new RegExp('Hello Worlds'))[0] */
+    // code here...
     function MyButton() {
-        const onClickHandle = ()=>{}
+        const onClickHandle = ()=>{} 
         return (
             //<x-jsx>
             <div>
@@ -22,7 +27,9 @@ const Hello = ()=><h1>Hello World</h1>
             </div>
             //</x-jsx>
         );
-    }
+    } 
+    
+   // \\write export default App;  \\n
 }
 //</xyntax>
 `

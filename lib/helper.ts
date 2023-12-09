@@ -23,7 +23,7 @@ export function write(code:string){
         }
        
     }
-    return code;
+    return write(code);
 }
 
 export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pattern:RegExp): {code:string}&{[k:string]:string[]} {
