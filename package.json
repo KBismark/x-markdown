@@ -1,7 +1,7 @@
 {
   "name": "xyntax",
   "version": "0.2.1",
-  "description": "Lightweight JavaScript syntax highlighter with zero performance overhead",
+  "description": "JavaScript syntax highlighter with zero performance overhead",
   "main": "dist/lib/index.js",
   "bin": {
     "xyntax": "bin/cli.js"
