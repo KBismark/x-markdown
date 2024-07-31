@@ -1,4 +1,4 @@
-import { gt, ls, lslash, replacerIdentifiers } from "./constants";
+import { customtags, gt, ls, lslash, methodVariables, replacerIdentifiers } from "./constants";
 import { writePattern } from "./patterns";
 
 const rand = `${Math.random()}`.replace('.','');
@@ -28,23 +28,64 @@ export function write(code:string){
 
 export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pattern:RegExp): {code:string}&{[k:string]:string[]} {
     let matches:any = code.match(pattern);
+    // console.log(name);
+    // console.log(matches);
+    
+    
     const replacer = getReplacer(name);
+    let i;
     if (matches) {
-      if(name==='bluekeys'){
-        code = code.replace(pattern,replacer);
-      }else{
-        for (let i = 0; i < matches.length; i++){
-          code = code.replace(matches[i], `${replacer}${i}${replacer}`);
-        }
+      switch (name) {
+        case 'bluekeys':
+          code = code.replace(pattern,replacer);
+          break;
+        case 'yellowkeys':
+          for (i = 0; i < matches.length; i++){
+            code = code.replace(methodVariables.init(matches[i]), `${replacer}${i}${replacer}`);
+          }
+          break;
+        case 'customkeys':
+          for (i = 0; i < matches.length; i++){
+            code = code.replace(customtags.init(matches[i]), `${replacer}${i}${replacer}`);
+          }
+          break;
+        default:
+          for (let i = 0; i < matches.length; i++){
+            code = code.replace(matches[i], `${replacer}${i}${replacer}`);
+            // code = replace(code, matches[i], `${replacer}${i}${replacer}`)
+          }
+          break;
       }
+     
       if(name=='text'){
         matches = matches.join(replacer).replace(/<x-text>/gs,'').replace(/<\/x-text>/gs,'').split(replacer);
       }
     } else {
       matches = [];
     }
+    // console.log(code);
+    
     const data = { code:code, [name]:matches };
     return data;
+}
+
+const replace = (original_str: string, search_str: string, replacer: string)=>{
+  const index = original_str.indexOf(search_str);
+  if(search_str==='configureForReact'){
+    console.log(index, original_str.length, replacer);
+    
+  }
+  if(index>=0){
+    const before = original_str.slice(0, index)||'';
+    const after = original_str.slice(index + search_str.length)||'';
+    if(search_str==='configureForReact'){
+      console.log(index, (before+after).length, original_str.split(search_str).length);
+      // return original_str
+    }
+   
+    return before+replacer+after
+  }
+  return original_str;
 }
 
 export function ReplaceToken(name:keyof typeof replacerIdentifiers,classname:string, code:string, tokens:string[]) {
@@ -54,9 +95,22 @@ export function ReplaceToken(name:keyof typeof replacerIdentifiers,classname:str
         code = code.replace(replacer,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
       }
     }else{
-      for (let i = 0; i < tokens.length; i++){
-        code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+      switch (name) {
+        case 'yellowkeys':
+        case 'customkeys':
+          for (let i = 0; i < tokens.length; i++){
+            code = code.replace(RegExp(`${replacer}${i}${replacer}`,'gs'),`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+          }
+          
+          break;
+        default:
+          for (let i = 0; i < tokens.length; i++){
+            code = code.replace(`${replacer}${i}${replacer}`,`${ls}span class="xmk-${classname}"${gt}${tokens[i]}${lslash}span${gt}`);
+          }
+
+          break;
       }
+      
     }
     return code;
 }

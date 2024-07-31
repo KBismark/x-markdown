@@ -9,10 +9,13 @@ export function parseJSX(maincode:string) {
     const comments = data.comment;
     data = RemoveToken('text', data.code, xtextPattern)
     const texts = data.text;
-    data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
-    const bluekeys = data.bluekeys;
+   
     data = RemoveToken('customkeys', data.code, customtags.pattern)
     const customtagkeys = data.customkeys;
+    
+    data = RemoveToken('bluekeys', data.code, htmltagsExtendsBluekeys.pattern)
+    const bluekeys = data.bluekeys;
+
     data = RemoveToken('pinkkeys', data.code, pinkKeywords.pattern)
     const pinkkeys = data.pinkkeys;
     data = RemoveToken('greenkeys', data.code, greenVariables.pattern)
@@ -31,9 +34,10 @@ export function parseJSX(maincode:string) {
                 ReplaceToken(
                     'text','text',
                     ReplaceToken(
-                        'bluekeys', 'key1x',
+                        'customkeys','predefx',
+                        
                         ReplaceToken(
-                            'customkeys','predefx',
+                            'bluekeys', 'key1x',
                             ReplaceToken(
                                 'pinkkeys', 'key2x',
                                 ReplaceToken(
@@ -46,11 +50,16 @@ export function parseJSX(maincode:string) {
                                         ), yellowkeys
                                     ), greenkeys
                                 ), pinkkeys
-                            ), customtagkeys
-                        ), bluekeys
-                    ), texts
-                ), comments
-            ), strings 
+                            ), 
+                            bluekeys
+                        ), 
+                        customtagkeys 
+                    ), 
+                    texts
+                ), 
+                comments
+            ), 
+            strings 
         );
     return code;
 }

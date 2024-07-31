@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./test.css">
+    <title>Document</title>
+</head>
+<body>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!---->
+<pre class="xyntax"><code><div class="xmk-js1x"> <span class="xmk-key2x">import</span> <span class="xmk-varx">React</span> <span class="xmk-key2x">from</span> <span class="xmk-stringx">'react'</span>
+<span class="xmk-key2x">import</span> &#123; <span class="xmk-varx">configureForReact</span>, <span class="xmk-varx">useStateStore</span>, <span class="xmk-varx">createStore</span>, <span class="xmk-varx">updateStore</span>, <span class="xmk-varx">getStore</span> &#125; <span class="xmk-key2x">from</span> <span class="xmk-stringx">'statestorejs'</span>
+<span class="xmk-methx">configureForReact</span>(<span class="xmk-varx">React</span>); <span class="xmk-commentx">&#47;&#47; Configuration for using with react or react-natve
+</span>
+<span class="xmk-key2x">export</span> <span class="xmk-key2x">default</span> <span class="xmk-key1x">function</span> <span class="xmk-methx">SimpleCircuit</span>()&#123;
+  <span class="xmk-methx">createStore</span>(<span class="xmk-stringx">'storageName'</span>, <span class="xmk-stringx">'storeId'</span>, &#123;<span class="xmk-varx">status</span>: <span class="xmk-key1x">false</span>, <span class="xmk-varx">count</span>: 0&#125;)
+  <span class="xmk-key2x">return</span> (<div class="xmk-jsx">      &#60;<span class="xmk-key1x">div</span>&#62;
+
+          &#60;<span class="xmk-predefx">Room</span> <span class="xmk-varx">id</span>=&#123;1&#125; &#47;&#62;
+          &#60;<span class="xmk-predefx">Room</span> <span class="xmk-varx">id</span>=&#123;2&#125; &#47;&#62;
+          &#60;<span class="xmk-predefx">Room</span> <span class="xmk-varx">id</span>=&#123;3&#125; <span class="xmk-varx">name</span>=<span class="xmk-stringx">"Esi"</span> <span class="xmk-varx">data</span>=&#123;<span class="xmk-varx">someData</span>&#125; &#47;&#62;
+          <span class="xmk-varx">Did</span> <span class="xmk-varx">you</span> <span class="xmk-varx">know</span>?
+          &#60;<span class="xmk-predefx">SwitchButton</span> &#47;&#62;
+          &#60;<span class="xmk-predefx">FirstRoomOnStatus</span> &#47;&#62;
+          <span class="xmk-varx">Would</span> <span class="xmk-varx">you</span>?
+      &#60;&#47;<span class="xmk-key1x">div</span>&#62;</div>  )
+&#125;
+
+<span class="xmk-key1x">function</span> <span class="xmk-methx">SwitchButton</span>()&#123;
+  <span class="xmk-key1x">const</span> <span class="xmk-varx">toggleSwitch</span> = ()=&#62;&#123;
+      <span class="xmk-key1x">const</span> &#123; <span class="xmk-varx">status</span>, <span class="xmk-varx">count</span> &#125; = <span class="xmk-methx">getStore</span>(<span class="xmk-stringx">'storageName'</span>, <span class="xmk-stringx">'storeId'</span>)
+      <span class="xmk-key1x">const</span> <span class="xmk-varx">reactors</span> = !<span class="xmk-varx">status</span>?[<span class="xmk-stringx">'status'</span>,<span class="xmk-stringx">'count'</span>]: [<span class="xmk-stringx">'status'</span>];
+      <span class="xmk-methx">updateStore</span>(
+          <span class="xmk-stringx">'storageName'</span>, <span class="xmk-stringx">'storeId'</span>, 
+          &#123; <span class="xmk-varx">actors</span>: <span class="xmk-varx">reactors</span>, <span class="xmk-varx">store</span>:&#123; <span class="xmk-varx">status</span>, <span class="xmk-varx">count</span>:!<span class="xmk-varx">status</span>?<span class="xmk-varx">count</span>+1:<span class="xmk-varx">count</span> &#125; &#125;
+      )
+  &#125;
+  <span class="xmk-key2x">return</span> &#60;<span class="xmk-key1x">button</span> <span class="xmk-varx">onClick</span>=&#123;<span class="xmk-varx">toggleSwitch</span>&#125; &#62; <span class="xmk-varx">Switch</span> &#60;&#47;<span class="xmk-key1x">button</span>&#62;
+&#125;
+
+<span class="xmk-key1x">function</span> <span class="xmk-methx">Room</span>(&#123;<span class="xmk-varx">id</span>&#125;)&#123;
+  <span class="xmk-commentx">&#47;&#47; Get current status and react to only changes in the <span class="xmk-stringx">'status'</span>
+</span>  <span class="xmk-key1x">const</span> &#123; <span class="xmk-varx">status</span>, <span class="xmk-varx">count</span> &#125; = <span class="xmk-methx">useStateStore</span>(<span class="xmk-stringx">'storageName'</span>, <span class="xmk-stringx">'storeId'</span>, [<span class="xmk-stringx">'status'</span>])
+  <span class="xmk-commentx">&#47;&#47; Turns off or on light in this room...
+</span>&#125;
+
+<span class="xmk-key1x">function</span> <span class="xmk-methx">FirstRoomOnStatus</span>()&#123;
+  <span class="xmk-commentx">&#47;&#47; Get number of times Room1 has been on and re-render only if it increases
+</span>  <span class="xmk-key1x">const</span> &#123; <span class="xmk-varx">conut</span> &#125; = <span class="xmk-methx">useStateStore</span>(<span class="xmk-stringx">'storageName'</span>, <span class="xmk-stringx">'storeId'</span>, [<span class="xmk-stringx">'count'</span>])
+  <span class="xmk-commentx">&#47;&#47; Displays how many times the first room is turned on...
+</span>&#125; </div></code></pre>
+<!---->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

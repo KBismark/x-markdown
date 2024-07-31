@@ -10,7 +10,7 @@
     "lib": "dist/lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc --outDir dist/ && node tests/test_returner.js",
     "build": "tsc --outDir dist/",
     "postversion": "git push && git push --tags"
   },
