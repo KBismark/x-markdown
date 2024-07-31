@@ -1,6 +1,6 @@
-import { ParseString } from "../index";
+import { ParseMarkdown } from "../index";
 const working_directory = process.cwd();
 module.exports = (source:any)=>{
-    ParseString(source,working_directory);
+    ParseMarkdown(source,working_directory);
     return '';
 }

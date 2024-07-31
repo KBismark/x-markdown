@@ -1,7 +1,7 @@
 
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
-import {ParseString} from './index'
+import {ParseMarkdown} from './index'
 
 function parseDirectory(srcDir:string,rootDir:string){
     let srcDirContent:string[];
@@ -19,7 +19,7 @@ function parseDirectory(srcDir:string,rootDir:string){
 export function parseFile(srcFile:string,rootDir:string){
     if(!parseDirectory(srcFile,rootDir)){
         if(/(\.xmd\.[a-zA-Z]+)$/.test(srcFile)){
-            ParseString(readFileSync(srcFile,'utf8'),rootDir);
+            ParseMarkdown(readFileSync(srcFile,'utf8'),rootDir);
         }
         
     }
