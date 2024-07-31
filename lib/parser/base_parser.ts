@@ -7,7 +7,7 @@ import { gt, ls, lslash, replacerIdentifiers } from '../constants';
 import { parseJSX } from './jsx';
 import { parseJSOnly } from './js';
 
-export function parseMarkdown(maincode:string,relativeDirectory:string) {
+export function parseMarkdown(maincode:string, relativeDirectory:string, returnAsString?: boolean) {
     let data:null|ReturnType<typeof RemoveToken> = RemoveToken('markdownJS', maincode, xmarkdownPattern)
     maincode =data.code;
     const markdownJS = data.markdownJS;
@@ -76,6 +76,10 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
             .replace(/\//gs, '&#47;').replace(/\{/gs, '&#123;').replace(/\}/gs, '&#125;').replace(/`/gs,'&#96;')
             .replace(RegExp(`${ls}`, 'gs'), '<').replace(RegExp(`${lslash}`, 'gs'), '</').replace(RegExp(`${gt}`, 'gs'), '>');
         
+
+        if(returnAsString){
+            return levelCode;
+        }
         (markdown as any )[i] = '';
         replacer = getReplacer('markdownJS');
         maincode = maincode.replace(`${replacer}${i}${replacer}`, '\n');
@@ -92,4 +96,9 @@ export function parseMarkdown(maincode:string,relativeDirectory:string) {
         }
         writeFileSync(srcPath,pathCode);
     }
+}
+
+
+export function parseCodeString(code: string){
+    return parseMarkdown(`//<xyntax path="./src/pre-highlighted-codes.js" my_button>{${code}}//</xyntax>`, '', true)
 }
