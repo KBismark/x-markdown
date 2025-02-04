@@ -28,9 +28,6 @@ export function write(code:string){
 
 export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pattern:RegExp): {code:string}&{[k:string]:string[]} {
     let matches:any = code.match(pattern);
-    // console.log(name);
-    // console.log(matches);
-    
     
     const replacer = getReplacer(name);
     let i;
@@ -52,7 +49,6 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
         default:
           for (let i = 0; i < matches.length; i++){
             code = code.replace(matches[i], `${replacer}${i}${replacer}`);
-            // code = replace(code, matches[i], `${replacer}${i}${replacer}`)
           }
           break;
       }
@@ -63,7 +59,6 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
     } else {
       matches = [];
     }
-    // console.log(code);
     
     const data = { code:code, [name]:matches };
     return data;
@@ -71,18 +66,9 @@ export function RemoveToken(name:keyof typeof replacerIdentifiers,code:string,pa
 
 const replace = (original_str: string, search_str: string, replacer: string)=>{
   const index = original_str.indexOf(search_str);
-  if(search_str==='configureForReact'){
-    console.log(index, original_str.length, replacer);
-    
-  }
   if(index>=0){
     const before = original_str.slice(0, index)||'';
     const after = original_str.slice(index + search_str.length)||'';
-    if(search_str==='configureForReact'){
-      console.log(index, (before+after).length, original_str.split(search_str).length);
-      // return original_str
-    }
-   
     return before+replacer+after
   }
   return original_str;
